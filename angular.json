@@ -16,9 +16,6 @@
             "outputPath": "dist/sales-web",
             "index": "web/src/index.html",
             "main": "web/src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
             "tsConfig": "web/tsconfig.app.json",
             "assets": [
               "web/src/favicon.ico",
@@ -77,10 +74,6 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
             "tsConfig": "web/tsconfig.spec.json",
             "assets": [
               "web/src/favicon.ico",
@@ -91,8 +84,51 @@
             ],
             "scripts": []
           }
+        },
+        "cypress-run": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "sales-web:serve",
+            "configFile": "web/cypress.config.ts",
+            "projectPath": "web"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "sales-web:serve:production"
+            }
+          }
+        },
+        "cypress-open": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "watch": true,
+            "headless": false,
+            "configFile": "web/cypress.config.ts",
+            "projectPath": "web"
+          }
+        },
+        "e2e": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "sales-web:serve",
+            "watch": true,
+            "headless": false,
+            "configFile": "web/cypress.config.ts",
+            "projectPath": "web"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "sales-web:serve:production"
+            }
+          }
         }
       }
     }
+  },
+  "cli": {
+    "schematicCollections": [
+      "@cypress/schematic",
+      "@schematics/angular"
+    ]
   }
 }
